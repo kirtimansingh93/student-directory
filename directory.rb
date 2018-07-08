@@ -23,8 +23,8 @@ def print_header
 end
 
 def print(students)
-  students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
+  students.each_with_index do |student, index|
+    puts "#{index + 1}.#{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 
@@ -32,7 +32,31 @@ def print_footer(students)
   puts "Overall, we have #{students.count} great students."
 end
 
-students = input_students
-print_header
-print(students)
-print_footer(students)
+def interactive_menu
+  students = [] # declare the variable students before the loop, setting
+  # it to an empty array so that it is available during several iterations
+  # of the loop.
+  loop do # 4. Repeat from step 1
+    # 1. Print menu and ask students what to do.
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit" # 9 becasue we will be adding more items
+    # 2. Read the input and save it into a vairiable.
+    selection = gets.chomp
+    # 3. Do what the user has asked.
+    case selection
+    when "1" # Input the students
+      students = input_students
+    when "2" # Show the students
+      print_header
+      print(students)
+      print_footer(students)
+    when "9"
+      exit # This will cause the program to terminate
+    else
+      puts "I don't know what you meant, try again."
+    end
+  end
+end
+
+interactive_menu()
